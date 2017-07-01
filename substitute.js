@@ -26,8 +26,38 @@ function insertChuckNorrisJoke(imageTag) {
   });
 }
 
-// TODO update tags that are loaded on runtime
-var imageTags = document.body.getElementsByTagName("img");
-for (var i=0; i<imageTags.length; i++) {
-  insertChuckNorrisJoke(imageTags[i]);
+function onError(error) {
+  console.log(`Error: ${error}`);
 }
+
+function loadPreferences(onFinishedCallback, onErrorCallback) {
+  function onPreferencesLoaded() {
+    if (username === "" || key === "") {
+      return;
+    }
+
+    onFinishedCallback(username, key);
+  }
+
+  var username = "";
+  var key = "";
+  browser.storage.local.get("username").then((result) => {
+    username = result.username;
+    onPreferencesLoaded();
+  }, onErrorCallback);
+  browser.storage.local.get("key").then((result) => {
+    key = result.key;
+    onPreferencesLoaded();
+  }, onErrorCallback);
+}
+
+function insertJokes(username, key) {
+  // TODO update tags that are loaded on runtime
+  var imageTags = document.body.getElementsByTagName("img");
+  for (var i=0; i<imageTags.length; i++) {
+    insertChuckNorrisJoke(imageTags[i]);
+  }
+}
+
+// Main method:
+loadPreferences(insertJokes, onError);
