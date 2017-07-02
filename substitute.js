@@ -3,6 +3,9 @@ function onError(error) {
   console.log(`Error: ${error}`);
 }
 
+/**
+ * Serializes a dictionary for use in a URL query string
+ */
 function urlSerialize(obj) {
   var str = [];
   for(var p in obj)
@@ -10,6 +13,9 @@ function urlSerialize(obj) {
   return str.join("&");
 }
 
+/**
+ * Determines whether a given complex object has some property given as list of arguments
+ */
 function hasProperty(jsonObject, path) {
   var args = Array.prototype.slice.call(arguments, 1);
   var obj = jsonObject;
@@ -21,7 +27,7 @@ function hasProperty(jsonObject, path) {
         return false;
       }
     }
-    // Otherwise parse it as an object
+    // Otherwise consider it as an object
     else if (!obj || !obj.hasOwnProperty(args[i])) {
       return false;
     }
@@ -30,9 +36,9 @@ function hasProperty(jsonObject, path) {
   return true;
 }
 
-/*** Alternative tag substitution ***/
+/*** Tag substitution ***/
 function insertImageCaption(imageTag, subscriptionKey) {
-  var uriBase = "http://westeurope.api.cognitive.microsoft.com/vision/v1.0/analyze";
+  var uriBase = "https://westeurope.api.cognitive.microsoft.com/vision/v1.0/analyze";
 
   // Request parameters.
   var params = {
@@ -77,12 +83,22 @@ function insertImageCaption(imageTag, subscriptionKey) {
   });
 }
 
+/**
+ * Loads the Vision API subscription key from browser's storage
+ */
 function loadPreferences(onFinishedCallback, onErrorCallback) {
   browser.storage.local.get("subscriptionKey").then((response) => {
+    if (!hasProperty(response, "subscriptionKey")) {
+      console.log("Please enter your substitution key for the Vision API in the addon's preferences menu");
+      return;
+    }
     onFinishedCallback(response.subscriptionKey);
   }, onErrorCallback);
 }
 
+/**
+ * Finds all img tags on the document and check their alt attributes
+ */
 function insertImageCaptions(subscriptionKey) {
   // TODO update tags that are loaded on runtime
   var imageTags = document.body.getElementsByTagName("img");

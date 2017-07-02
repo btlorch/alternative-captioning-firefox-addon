@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Image caption insertion",
-  "description": "Inserts descriptive image captions in image alternative tags for visually impaired people",
+  "description": "Inserts descriptive image captions in image alternative tags to support visually impaired people browse the web with a screen reader",
   "homepage_url": "https://github.com/btlorch/firefox-image-labelling-extension",
   "version": "0.1",
   "content_scripts": [
@@ -12,8 +12,7 @@
   ],
   "permissions": [
     "storage",
-    "http://*/",
-    "https://*/"
+    "https://westeurope.api.cognitive.microsoft.com/*"
   ],
   "options_ui": {
     "page": "options.html"
