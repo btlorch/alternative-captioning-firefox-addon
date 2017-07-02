@@ -109,6 +109,12 @@ function insertImageCaptions(subscriptionKey) {
   // TODO update tags that are loaded on runtime
   var imageTags = document.body.getElementsByTagName("img");
   for (var i=0; i<imageTags.length; i++) {
+    // Ignore small images
+    var width = imageTags[i].naturalWidth;
+	var height = imageTags[i].naturalHeight;
+	if (width <= 50 || height <= 50) {
+	  continue;
+    }
     insertImageCaption(imageTags[i], subscriptionKey);
   }
 }
