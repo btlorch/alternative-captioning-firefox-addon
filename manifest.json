@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Image caption insertion",
+  "name": "Alternative Captioning",
   "description": "Inserts descriptive image captions in image alternative tags to support visually impaired people browse the web with a screen reader",
   "homepage_url": "https://github.com/btlorch/firefox-image-labelling-extension",
   "version": "0.1",
