@@ -1,6 +1,6 @@
 /***  Helper functions ***/
 function onError(error) {
-  console.log(`Error: ${error}`);
+  console.log("Error: ${error}");
 }
 
 /**
@@ -73,7 +73,13 @@ function insertImageCaption(imageTag, subscriptionKey) {
           return;
         }
         const text = result["description"]["captions"][0]["text"];
-        imageTag.setAttribute("alt", text);
+		// Prepend with note that the caption is not necessarily correct
+		var newAlternativeText = "Image may show: " + text;
+		// Preserve old alternative attribute
+		if (imageTag.hasAttribute("alt")) {
+			newAlternativeText = imageTag.getAttribute("alt") + "; " + newAlternativeText;
+		}
+        imageTag.setAttribute("alt", newAlternativeText);
       });
     } else {
       console.log("Failed to fetch request " + response.status);
